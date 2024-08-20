@@ -26,7 +26,33 @@ public class Restaurant
     {
         Reservations.Add(reservation);
     }
+    public void UpdateReservation(int reservationId, Reservation updatedReservation)
+    {
+        var reservation = Reservations.FirstOrDefault(r => r.Reservationid == reservationId);
+        if (reservation != null)
+        {
+            reservation.Customer = updatedReservation.Customer;
+            reservation.Table = updatedReservation.Table;
+            reservation.Datetime = updatedReservation.Datetime;
+        }
+    }
+
+    public void CancelReservation(int reservationId)
+    {
+        var reservation = Reservations.FirstOrDefault(r => r.Reservationid == reservationId);
+        if (reservation != null)
+        {
+            Reservations.Remove(reservation);
+        }
+    }
+
+    public List<Reservation> SearchReservations(Func<Reservation, bool> predicate)
+    {
+        return Reservations.Where(predicate).ToList();
+    }
+
 }
+
 
 
 
