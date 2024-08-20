@@ -4,3 +4,4 @@ public class Reservation{
     public Customer customer{get;set;}
     public Table table{get;set;}
 }
+
