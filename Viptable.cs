@@ -1,4 +1,4 @@
-public class Viptable : Table
+public class VipTable : Table
 {
     public string SpecialService { get; set; }
 }
