@@ -1,4 +1,4 @@
-public class Standardtable : Table
+public class StandardTable : Table
 {
-    public bool Near_Window { get; set; }
+    public bool NearWindow { get; set; }
 }
