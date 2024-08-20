@@ -1,7 +1,7 @@
 public class Reservation{
     public int Reservationid{get;set;}
-    public DateTime datetime{get;set;}
-    public Customer customer{get;set;}
-    public Table table{get;set;}
+    public DateTime Datetime{get;set;}
+    public Customer Customer{get;set;}
+    public Table Table{get;set;}
 }
 

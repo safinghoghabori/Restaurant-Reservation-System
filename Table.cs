@@ -4,4 +4,5 @@ public class Table
     public int Capacity { get; set; }
     public int cost{get;set;}
     public bool IsReserved { get; set; }
+    
 }
