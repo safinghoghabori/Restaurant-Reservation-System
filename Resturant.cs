@@ -26,15 +26,15 @@ public class Restaurant
     {
         if (reservation.Customer == null || reservation.Table == null || reservation.Datetime == default)
         {
-            throw new Invalidreservationexception("Reservation details are incomplete.");
+            throw new InvalidReservationException("Reservation details are incomplete.");
         }
         if (Reservations.Any(r => r.Table.TableId == reservation.Table.TableId && r.Datetime == reservation.Datetime))
         {
-            throw new Overbookingexception("This table is already booked for the specified time.");
+            throw new OverBookingException("This table is already booked for the specified time.");
         }
         if (Reservations.Any(r => r.Customer.CustomerId == reservation.Customer.CustomerId && r.Datetime == reservation.Datetime))
         {
-            throw new Doublebookingexception("Customer already has a reservation at the specified time.");
+            throw new DoubleBookingException("Customer already has a reservation at the specified time.");
         }
 
         Reservations.Add(reservation);

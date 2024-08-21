@@ -1,5 +1,5 @@
-public class Overbookingexception : Exception
+public class OverBookingException : Exception
 {
-    public Overbookingexception(string message) : base(message) { }
+    public OverBookingException(string message) : base(message) { }
 }
 

@@ -1,4 +1,4 @@
-public class Invalidreservationexception : Exception
+public class InvalidReservationException : Exception
 {
-    public Invalidreservationexception(string message) : base(message) { }
+    public InvalidReservationException(string message) : base(message) { }
 }

@@ -1,4 +1,4 @@
-public class Doublebookingexception : Exception
+public class DoubleBookingException : Exception
 {
-    public Doublebookingexception(string message) : base(message) { }
+    public DoubleBookingException(string message) : base(message) { }
 }
