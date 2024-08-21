@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,125 +6,316 @@ class Program
 {
     static void Main()
     {
-        // Create a new restaurant
         var restaurant = new Restaurant
         {
-            Name = "Gourmet Delight"
+            Name = "SunShine"
         };
 
-        // Add some tables
-        var vipTable1 = new VipTable
+        bool running = true;
+
+        while (running)
         {
-            TableId = 1,
-            Capacity = 4,
-            Cost = 100,
-            IsReserved = false,
-            SpecialService = "Free Champagne"
-        };
+            Console.WriteLine("\nRestaurant Management System");
+            Console.WriteLine("1. Add Table");
+            Console.WriteLine("2. Add Customer");
+            Console.WriteLine("3. Make Reservation");
+            Console.WriteLine("4. Update Reservation");
+            Console.WriteLine("5. Cancel Reservation");
+            Console.WriteLine("6. List Customers");
+            Console.WriteLine("7. List Booked Tables");
+            Console.WriteLine("8. Show Number of Reservations");
+            Console.WriteLine("9. Search Reservations");
+            Console.WriteLine("10. Exit");
+            Console.Write("Choose an option: ");
 
-        var standardTable1 = new StandardTable
+            var choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    AddTable(restaurant);
+                    break;
+                case "2":
+                    AddCustomer(restaurant);
+                    break;
+                case "3":
+                    MakeReservation(restaurant);
+                    break;
+                case "4":
+                    UpdateReservation(restaurant);
+                    break;
+                case "5":
+                    CancelReservation(restaurant);
+                    break;
+                case "6":
+                    ListCustomers(restaurant);
+                    break;
+                case "7":
+                    ListBookedTables(restaurant);
+                    break;
+                case "8":
+                    ShowNumberOfReservations(restaurant);
+                    break;
+                case "9":
+                    SearchReservations(restaurant);
+                    break;
+                case "10":
+                    running = false;
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice. Please enter a number between 1 and 10.");
+                    break;
+            }
+        }
+    }
+
+    static void AddTable(Restaurant restaurant)
+    {
+        Console.WriteLine("Adding a new table");
+
+        Console.Write("Enter Table ID: ");
+        int tableId = int.Parse(Console.ReadLine());
+
+        Console.Write("Enter Capacity: ");
+        int capacity = int.Parse(Console.ReadLine());
+
+        Console.Write("Enter Cost: ");
+        int cost = int.Parse(Console.ReadLine());
+
+        Console.Write("Is the table reserved? (yes/no): ");
+        bool isReserved = Console.ReadLine().Trim().ToLower() == "yes";
+
+        Console.Write("Enter table type (vip/standard): ");
+        string tableType = Console.ReadLine().Trim().ToLower();
+
+        Table table;
+
+        if (tableType == "vip")
         {
-            TableId = 2,
-            Capacity = 2,
-            Cost = 50,
-            IsReserved = false,
-            NearWindow = true
-        };
-
-        restaurant.AddTable(vipTable1);
-        restaurant.AddTable(standardTable1);
-
-        // Add some customers
-        var customer1 = new Customer
+            Console.Write("Enter Special Service: ");
+            string specialService = Console.ReadLine();
+            table = new VipTable
+            {
+                TableId = tableId,
+                Capacity = capacity,
+                Cost = cost,
+                IsReserved = isReserved,
+                SpecialService = specialService
+            };
+        }
+        else
         {
-            CustomerId = 1,
-            Name = "Alice Smith",
-            PhoneNumber = "123-456-7890",
-            Age = 30,
-            Gender = "Female"
-        };
+            Console.Write("Is the table near a window? (yes/no): ");
+            bool nearWindow = Console.ReadLine().Trim().ToLower() == "yes";
+            table = new StandardTable
+            {
+                TableId = tableId,
+                Capacity = capacity,
+                Cost = cost,
+                IsReserved = isReserved,
+                NearWindow = nearWindow
+            };
+        }
 
-        var customer2 = new Customer
+        restaurant.AddTable(table);
+        Console.WriteLine("Table added successfully.");
+    }
+
+    static void AddCustomer(Restaurant restaurant)
+    {
+        Console.WriteLine("Adding a new customer");
+
+        Console.Write("Enter Customer ID: ");
+        int customerId = int.Parse(Console.ReadLine());
+
+        Console.Write("Enter Name: ");
+        string name = Console.ReadLine();
+
+        Console.Write("Enter Phone Number: ");
+        string phoneNumber = Console.ReadLine();
+
+        Console.Write("Enter Age: ");
+        int age = int.Parse(Console.ReadLine());
+
+        Console.Write("Enter Gender: ");
+        string gender = Console.ReadLine();
+
+        var customer = new Customer
         {
-            CustomerId = 2,
-            Name = "Bob Johnson",
-            PhoneNumber = "098-765-4321",
-            Age = 40,
-            Gender = "Male"
+            CustomerId = customerId,
+            Name = name,
+            PhoneNumber = phoneNumber,
+            Age = age,
+            Gender = gender
         };
 
-        restaurant.AddCustomer(customer1);
-        restaurant.AddCustomer(customer2);
+        restaurant.AddCustomer(customer);
+        Console.WriteLine("Customer added successfully.");
+    }
 
-        // Make some reservations
+    static void MakeReservation(Restaurant restaurant)
+    {
+        Console.WriteLine("Making a new reservation");
+
+        Console.Write("Enter Reservation ID: ");
+        int reservationId = int.Parse(Console.ReadLine());
+
+        Console.Write("Enter Date and Time (yyyy-mm-dd hh:mm:ss): ");
+        DateTime datetime = DateTime.Parse(Console.ReadLine());
+
+        Console.Write("Enter Customer ID: ");
+        int customerId = int.Parse(Console.ReadLine());
+        var customer = restaurant.Customers.FirstOrDefault(c => c.CustomerId == customerId);
+        if (customer == null)
+        {
+            Console.WriteLine("Customer not found.");
+            return;
+        }
+
+        Console.Write("Enter Table ID: ");
+        int tableId = int.Parse(Console.ReadLine());
+        var table = restaurant.Tables.FirstOrDefault(t => t.TableId == tableId);
+        if (table == null)
+        {
+            Console.WriteLine("Table not found.");
+            return;
+        }
+
         try
         {
-            var reservation1 = new Reservation
+            var reservation = new Reservation
             {
-                Reservationid = 1,
-                Datetime = new DateTime(2024, 8, 21, 19, 0, 0),
-                Customer = customer1,
-                Table = vipTable1
+                Reservationid = reservationId,
+                Datetime = datetime,
+                Customer = customer,
+                Table = table
             };
 
-            restaurant.AddReservation(reservation1);
-
-            // Attempt to double-book the same customer at the same time
-            var reservation2 = new Reservation
-            {
-                Reservationid = 2,
-                Datetime = new DateTime(2024, 8, 21, 19, 0, 0),
-                Customer = customer1,
-                Table = standardTable1
-            };
-
-            restaurant.AddReservation(reservation2); // Should throw DoubleBookingException
+            restaurant.AddReservation(reservation);
+            Console.WriteLine("Reservation made successfully.");
         }
-        catch (DoubleBookingException ex)
+        catch (Exception ex) when (ex is DoubleBookingException || ex is InvalidReservationException || ex is OverBookingException)
         {
             Console.WriteLine("Error: " + ex.Message);
         }
-        catch (InvalidReservationException ex)
+    }
+
+    static void UpdateReservation(Restaurant restaurant)
+    {
+        Console.WriteLine("Updating a reservation");
+
+        Console.Write("Enter Reservation ID to update: ");
+        int reservationId = int.Parse(Console.ReadLine());
+
+        Console.Write("Enter new Date and Time (yyyy-mm-dd hh:mm:ss): ");
+        DateTime datetime = DateTime.Parse(Console.ReadLine());
+
+        Console.Write("Enter new Customer ID: ");
+        int customerId = int.Parse(Console.ReadLine());
+        var customer = restaurant.Customers.FirstOrDefault(c => c.CustomerId == customerId);
+        if (customer == null)
         {
-            Console.WriteLine("Error: " + ex.Message);
-        }
-        catch (OverBookingException ex)
-        {
-            Console.WriteLine("Error: " + ex.Message);
+            Console.WriteLine("Customer not found.");
+            return;
         }
 
-        // Update a reservation
+        Console.Write("Enter new Table ID: ");
+        int tableId = int.Parse(Console.ReadLine());
+        var table = restaurant.Tables.FirstOrDefault(t => t.TableId == tableId);
+        if (table == null)
+        {
+            Console.WriteLine("Table not found.");
+            return;
+        }
+
+        var updatedReservation = new Reservation
+        {
+            Reservationid = reservationId,
+            Datetime = datetime,
+            Customer = customer,
+            Table = table
+        };
+
         try
         {
-            var updatedReservation = new Reservation
-            {
-                Reservationid = 1,
-                Datetime = new DateTime(2024, 8, 22, 19, 0, 0),
-                Customer = customer2,
-                Table = standardTable1
-            };
-
-            restaurant.UpdateReservation(1, updatedReservation);
+            restaurant.UpdateReservation(reservationId, updatedReservation);
+            Console.WriteLine("Reservation updated successfully.");
         }
         catch (Exception ex)
         {
             Console.WriteLine("Error updating reservation: " + ex.Message);
         }
+    }
 
-        // Cancel a reservation
+    static void CancelReservation(Restaurant restaurant)
+    {
+        Console.WriteLine("Canceling a reservation");
+
+        Console.Write("Enter Reservation ID to cancel: ");
+        int reservationId = int.Parse(Console.ReadLine());
+
         try
         {
-            restaurant.CancelReservation(1);
+            restaurant.CancelReservation(reservationId);
+            Console.WriteLine("Reservation canceled successfully.");
         }
         catch (Exception ex)
         {
             Console.WriteLine("Error canceling reservation: " + ex.Message);
         }
+    }
 
-        // Search reservations
-        var reservationsOnDate = restaurant.SearchReservations(r => r.Datetime.Date == new DateTime(2024, 8, 21).Date);
-        Console.WriteLine("Reservations on August 21, 2024:");
-        foreach (var reservation in reservationsOnDate)
+    static void ListCustomers(Restaurant restaurant)
+    {
+        Console.WriteLine("Listing all customers");
+
+        if (restaurant.Customers.Count == 0)
+        {
+            Console.WriteLine("No customers found.");
+        }
+        else
+        {
+            foreach (var customer in restaurant.Customers)
+            {
+                Console.WriteLine($"ID: {customer.CustomerId}, Name: {customer.Name}, Phone: {customer.PhoneNumber}, Age: {customer.Age}, Gender: {customer.Gender}");
+            }
+        }
+    }
+
+    static void ListBookedTables(Restaurant restaurant)
+    {
+        Console.WriteLine("Listing all booked tables");
+
+        var bookedTables = restaurant.Tables.Where(t => t.IsReserved).ToList();
+
+        if (bookedTables.Count == 0)
+        {
+            Console.WriteLine("No tables are currently booked.");
+        }
+        else
+        {
+            foreach (var table in bookedTables)
+            {
+                Console.WriteLine($"Table ID: {table.TableId}, Capacity: {table.Capacity}, Cost: {table.Cost}");
+            }
+        }
+    }
+
+    static void ShowNumberOfReservations(Restaurant restaurant)
+    {
+        Console.WriteLine($"Total number of reservations: {restaurant.Reservations.Count}");
+    }
+
+    static void SearchReservations(Restaurant restaurant)
+    {
+        Console.WriteLine("Searching reservations");
+
+        Console.Write("Enter Date to search (yyyy-mm-dd): ");
+        DateTime searchDate = DateTime.Parse(Console.ReadLine());
+
+        var reservations = restaurant.SearchReservations(r => r.Datetime.Date == searchDate.Date);
+        Console.WriteLine($"Reservations on {searchDate.ToShortDateString()}:");
+        foreach (var reservation in reservations)
         {
             Console.WriteLine($"Reservation ID: {reservation.Reservationid}, Customer: {reservation.Customer.Name}, Table ID: {reservation.Table.TableId}, DateTime: {reservation.Datetime}");
         }
