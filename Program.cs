@@ -84,6 +84,10 @@ class Program
 
         Console.Write("Is the table reserved? (yes/no): ");
         bool isReserved = Console.ReadLine().Trim().ToLower() == "yes";
+        if (isReserved){
+        Console.WriteLine("Table is reserved. Exit the program.");
+        Environment.Exit(0);
+        }
 
         Console.Write("Enter table type (vip/standard): ");
         string tableType = Console.ReadLine().Trim().ToLower();
@@ -107,6 +111,11 @@ class Program
         {
             Console.Write("Is the table near a window? (yes/no): ");
             bool nearWindow = Console.ReadLine().Trim().ToLower() == "yes";
+            if (nearWindow)
+        {
+            Console.WriteLine("Table near a window is already there. Please choose another table.");
+            
+        }
             table = new StandardTable
             {
                 TableId = tableId,
