@@ -17,6 +17,18 @@ public class Restaurant
     public void AddTable(Table table)
     {
         Tables.Add(table);
+        NumberOfTables += 1;
+    }
+
+    public string RemoveTable(int tableId) {
+        var table = Tables.Find(table => table.TableId == tableId);
+        if(table == null) {
+            return "Warning: Table does not exists!";
+        }
+        
+        Tables.Remove(table);
+        NumberOfTables -= 1;
+        return "Success: Table removed successfully!";
     }
 
     public void DisplayTables() {
@@ -25,7 +37,7 @@ public class Restaurant
             return;
         }
 
-        Console.WriteLine("====Display Tables====");
+        Console.WriteLine("\n====Display Tables====");
         foreach(Table table in Tables) {
             Console.WriteLine(table);
         }
