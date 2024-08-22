@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -201,8 +201,8 @@ class Program
         {
             var reservation = new Reservation
             {
-                Reservationid = reservationId,
-                Datetime = datetime,
+                ReservationId = reservationId,
+                DateTime = datetime,
                 Customer = customer,
                 Table = table
             };
@@ -246,8 +246,8 @@ class Program
 
         var updatedReservation = new Reservation
         {
-            Reservationid = reservationId,
-            Datetime = datetime,
+            ReservationId = reservationId,
+            DateTime = datetime,
             Customer = customer,
             Table = table
         };
@@ -329,11 +329,77 @@ class Program
         Console.Write("Enter Date to search (yyyy-mm-dd): ");
         DateTime searchDate = DateTime.Parse(Console.ReadLine());
 
-        var reservations = restaurant.SearchReservations(r => r.Datetime.Date == searchDate.Date);
+        var reservations = restaurant.SearchReservations(r => r.DateTime.Date == searchDate.Date);
         Console.WriteLine($"Reservations on {searchDate.ToShortDateString()}:");
         foreach (var reservation in reservations)
         {
-            Console.WriteLine($"Reservation ID: {reservation.Reservationid}, Customer: {reservation.Customer.Name}, Table ID: {reservation.Table.TableId}, DateTime: {reservation.Datetime}");
+            Console.WriteLine($"Reservation ID: {reservation.ReservationId}, Customer: {reservation.Customer.Name}, Table ID: {reservation.Table.TableId}, DateTime: {reservation.DateTime}");
+        }
+    }
+
+
+    private static void Main(string[] args)
+    {
+                var restaurant = new Restaurant
+        {
+            Name = "SunShine"
+        };
+
+        bool running = true;
+
+        while (running)
+        {
+            Console.WriteLine("\nRestaurant Management System");
+            Console.WriteLine("1. Add Table");
+            Console.WriteLine("2. Add Customer");
+            Console.WriteLine("3. Make Reservation");
+            Console.WriteLine("4. Update Reservation");
+            Console.WriteLine("5. Cancel Reservation");
+            Console.WriteLine("6. List Customers");
+            Console.WriteLine("7. List Booked Tables");
+            Console.WriteLine("8. Show Number of Reservations");
+            Console.WriteLine("9. Search Reservations");
+            Console.WriteLine("10. Exit");
+            Console.Write("Choose an option: ");
+
+            var choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    AddTable(restaurant);
+                    break;
+                case "2":
+                    AddCustomer(restaurant);
+                    break;
+                case "3":
+                    MakeReservation(restaurant);
+                    break;
+                case "4":
+                    UpdateReservation(restaurant);
+                    break;
+                case "5":
+                    CancelReservation(restaurant);
+                    break;
+                case "6":
+                    ListCustomers(restaurant);
+                    break;
+                case "7":
+                    ListBookedTables(restaurant);
+                    break;
+                case "8":
+                    ShowNumberOfReservations(restaurant);
+                    break;
+                case "9":
+                    SearchReservations(restaurant);
+                    break;
+                case "10":
+                    running = false;
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice. Please enter a number between 1 and 10.");
+                    break;
+            }
         }
     }
 }
