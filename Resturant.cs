@@ -15,6 +15,10 @@ public class Restaurant
 
     public void AddTable(Table table)
     {
+        if (Customers.Count == 0)
+        {
+            throw new InvalidOperationException("Customer details should be filled first before adding a table.");
+        }
         Tables.Add(table);
     }
      public void AddCustomer(Customer customer)

@@ -71,6 +71,10 @@ class Program
 
     static void AddTable(Restaurant restaurant)
     {
+        if (restaurant.Customers.Count == 0)
+        {
+            Console.WriteLine("Customer details should be filled first before adding a table.");
+        }
         Console.WriteLine("Adding a new table");
 
         Console.Write("Enter Table ID: ");
