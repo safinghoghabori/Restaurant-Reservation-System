@@ -16,6 +16,10 @@ public class Restaurant
 
     public void AddTable(Table table)
     {
+        if (Customers.Count == 0)
+        {
+            throw new InvalidOperationException("Customer details should be filled first before adding a table.");
+        }
         Tables.Add(table);
         NumberOfTables += 1;
     }
@@ -90,24 +94,8 @@ public class Restaurant
         return Reservations.Where(predicate).ToList();
     }
 
-    public bool BookTable(int tableId, Customer customer) {
-        // check if table is already booked
-        var table = Tables.Find(table => table.TableId == tableId);
-
-        if(table != null && !table.IsReserved) {
-            table.IsReserved = true;
-            AddReservation(new Reservation() {DateTime = DateTime.Now, Customer = customer, Table = table});
-            return true;
-        } 
-        else {
-            return false;
-        }
-    }
-
-    public void DisplayBookedTables() {
-
-    }
 }
+
 
 
 
