@@ -22,7 +22,7 @@ class Program
             Console.WriteLine("4. Update Reservation");
             Console.WriteLine("5. Cancel Reservation");
             Console.WriteLine("6. List Customers");
-            Console.WriteLine("7. List Booked Tables");
+            Console.WriteLine("7. List Tables");
             Console.WriteLine("8. Show Number of Reservations");
             Console.WriteLine("9. Search Reservations");
             Console.WriteLine("10. Exit");
@@ -192,6 +192,9 @@ class Program
         {
             Console.WriteLine("Table not found.");
             return;
+        }
+        else {
+            table.IsReserved = true;
         }
 
         try
